@@ -125,3 +125,39 @@
           (cons (first lst) (compress (rest lst))))))
 
 (compress '(a a a a b c c a a d e e e e))
+
+
+;; 7. Interleave two lists
+;; write a procedure `interleave' so that
+;; (interleave '(a b c) '(d e f)) becomes
+;; (a d b e c f)
+(defun interleave (lst-1 lst-2)
+  (if (or (null lst-1) (null lst-2))
+      nil
+      (cons (first lst-1)
+            (cons (first lst-2)
+                  (interleave (rest lst-1) (rest lst-2))))))
+
+(interleave '(a b c) '(d e f))
+
+;; 8. Look up an entry in an association list
+;; write a procedure `lookup' so that
+;; (lookup 'cat *type*) returns
+;; (cat mammal)
+;; using an association list
+(defparameter *type*
+  '((cat mammal)
+    (dog mamal)
+    (lizard reptile)
+    (salmon fish)))
+
+(defun lookup (key dict)
+  (if (or (null key) (null dict))
+      nil
+      (if (string= key (first (first dict)))
+          (first dict)
+          (lookup key (rest dict)))))
+
+(lookup 'cat *type*)
+(setf *type* (cons '(owl bird) *type*))
+(lookup 'owl *type*)
